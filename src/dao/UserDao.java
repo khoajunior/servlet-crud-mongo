@@ -30,6 +30,40 @@ public class UserDao {
 		return result;
 	}
 	
+	public boolean updateUser(User user) {
+		boolean result = false;
+		EntityTransaction tr = em.getTransaction();
+		try {
+			tr.begin();
+			em.merge(user);
+			tr.commit();
+			result = true;
+		}catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public boolean deleteUser(User user) {
+		boolean result = false;
+		EntityTransaction tr = em.getTransaction();
+		try {
+			tr.begin();
+			em.remove(user);
+			tr.commit();
+			result = true;
+		}catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public User getUser(int id) {
+		return em.find(User.class, id);
+	}
+	
 	public List<User> findAll(){
 		List<User> list = new ArrayList<User>();
 		String sqlQuery = "db.User.find({})";

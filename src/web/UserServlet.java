@@ -50,19 +50,52 @@ public class UserServlet extends HttpServlet {
                     insertUser(request, response);
                     break;
                 case "/delete":
-                    //deleteUser(request, response);
+                    deleteUser(request, response);
                     break;
                 case "/edit":
-                    //showEditForm(request, response);
+                    showEditForm(request, response);
                     break;
                 case "/update":
-                    //updateUser(request, response);
+                    updateUser(request, response);
                     break;
                 default:
                     listUser(request, response);
                     break;
             }
         
+	}
+	
+	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+			throws  ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		User existingUser = userDao.getUser(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
+		request.setAttribute("user", existingUser);
+		dispatcher.forward(request, response);
+
+	}
+	
+	private void updateUser(HttpServletRequest request, HttpServletResponse response) 
+			throws  IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String country = request.getParameter("country");
+
+		User user = new User(id, name, email, country);
+		userDao.updateUser(user);
+		response.sendRedirect("list");
+	}
+
+
+	private void deleteUser(HttpServletRequest request, HttpServletResponse response)throws  IOException {
+		// TODO Auto-generated method stub
+		String name = request.getParameter("id");
+		int id = Integer.parseInt(name);
+		User user = userDao.getUser(id);
+		System.out.println(user);
+		userDao.deleteUser(user);
+		response.sendRedirect("list");
 	}
 
 	/**
