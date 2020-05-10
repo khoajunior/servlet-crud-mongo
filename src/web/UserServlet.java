@@ -86,6 +86,8 @@ public class UserServlet extends HttpServlet {
 		userDao.updateUser(user);
 		response.sendRedirect("list");
 	}
+	
+	
 
 
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response)throws  IOException {
